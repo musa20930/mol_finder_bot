@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "mol-finder-bot"
+version = "0.1.0"
+description = "Telegram bot for searching molecules and their properties from ChEMBL database"
+authors = ["musa20930 <89876925+musa20930@users.noreply.github.com>"]
+license = "GNU LESSER GENERAL PUBLIC LICENSE"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+loguru = "^0.7.2"
+chembl-webresource-client = "^0.10.9"
+aiogram = "^3.6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

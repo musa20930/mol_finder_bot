@@ -1,0 +1,6 @@
+.DS_Store
+__pycache__
+*log
+.vscode
+.idea
+private.py
