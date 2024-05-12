@@ -201,7 +201,15 @@ async def get_mols_by_similarity(message: types.Message, state: FSMContext) -> N
             s = Smiles(smiles=smiles)
             mol_smiles = s.smiles
         except ValidationError as e:
-            logger.error(e.errors())        
+            logger.error(e.errors())
+            await message.reply(
+                f"Wrong format, should be: <smiles> <percent>"
+            )
+        except Exception as e:
+            logger.error(e)
+            await message.reply(
+                f"Something went wrong"
+            )
     
     if 40 <= similarity_percent <= 100:
         logger.debug(f"Looking for molecules similar to \'{mol_smiles}\' by {similarity_percent}%")

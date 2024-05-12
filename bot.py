@@ -27,6 +27,7 @@ async def main() -> None:
         types.BotCommand(command="cancel", description="Cancel running task"),
         types.BotCommand(command="help", description="Manual"),
     ])
+    # routers useful to chain questions and write necessary data
     dp.include_routers(search.search_router, commands.command_router)
     await dp.start_polling(bot)
 

@@ -3,7 +3,7 @@ from rdkit import Chem
 
 
 class SmilesSimilarity(BaseModel):
-    smiles_percent: str = Field(pattern=r"^(\w+)\s(\d+)")
+    smiles_percent: str = Field(pattern=r"^(\w+)\s(\d+)$")
 
 
 class Smiles(BaseModel):
