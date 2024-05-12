@@ -126,7 +126,7 @@ async def get_mol_by_id(message: types.Message, state: FSMContext) -> None:
         keyboard = [
             [types.KeyboardButton(text='Search by Similarity❄️❄️'), 
             types.KeyboardButton(text='Get Molecule Structure🧬'), 
-            types.KeyboardButton(text='Search by name')], 
+            types.KeyboardButton(text='Search by Name')], 
         ]
         reply_markup = types.ReplyKeyboardMarkup(keyboard=keyboard, 
                                                 resize_keyboard=True, 

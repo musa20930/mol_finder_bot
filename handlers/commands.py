@@ -4,6 +4,7 @@ from aiogram import types, Router
 from aiogram.filters.command import Command, CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram import F
+from aiogram.enums import ParseMode
 
 
 command_router = Router()
@@ -25,7 +26,33 @@ async def start(message: types.Message) -> None:
 @command_router.message(Command('help'))
 async def help(message: types.Message) -> None:
     await message.answer(
-        text="Coming soon...",
+        text=f"<b>Manual for MolFinder Bot</b>\n\n"
+        f"<b>Where to start</b>\n"
+        f"You can start by using /search command.\n"
+        f"After which, you will see 3 buttons:\n"
+        f"\t\tSearch by Name\n"
+        f"\t\tSearch by ChEMBL ID\n"
+        f"\t\tSearch by Similarity\n\n"
+        f"It is recommended to use first 2 options, as those are more stable. "
+        f"Recommended search by similarity is mentioned below.\n\n"
+        f"<b>Look up molecules and their info</b>\n"
+        f"If you press one of the 3 buttons and type in your search query \n"
+        f"buttons will change to the following:\n"
+        f"\t\tSearch by Similarity❄️❄️\n"
+        f"\t\tGet Molecule Structure🧬\n"
+        f"\t\tSearch by Name\n\n"
+        f"`Search by Similarity❄️❄️` "
+        f"will bring you to the recommended way to search by similarity.\n"
+        f"`Get Molecule Structure🧬` is for getting .png image of molecule structure.\n"
+        f"`Search by Name` button is identical to the button mentioned above.\n\n"
+        f"<b>Canceling Tasks</b>\n"
+        f"You can cancel any task, by typing /cancel command at any time.\n\n"
+        f"<b>Contact Information</b>\n"
+        f"If you still have some questions, "
+        f"feel free to contanct the author at @musa_adham.\n"
+        f"Thank you for using MolFinder Bot! 🙂"
+        ,
+        parse_mode=ParseMode.HTML, 
         reply_markup=types.ReplyKeyboardRemove()
     )
 
