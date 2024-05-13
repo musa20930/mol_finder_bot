@@ -8,9 +8,7 @@ poetry run python bot.py
 
 import asyncio
 import os
-
 from aiogram import Bot, Dispatcher, types
-
 from handlers import commands, search, log_handler
 
 

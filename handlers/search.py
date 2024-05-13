@@ -23,6 +23,7 @@ async def search(message: types.Message, state: FSMContext) -> None:
     keyboard = [
         [types.KeyboardButton(text='By Name'), 
          types.KeyboardButton(text='By Chembl ID'),
+         types.KeyboardButton(text='By INCHI key'),
          types.KeyboardButton(text='By Similarity')],
     ]
     reply_markup = types.ReplyKeyboardMarkup(keyboard=keyboard, 
@@ -59,6 +60,17 @@ async def search_by_id(message: types.Message, state: FSMContext) -> None:
     )
 
 
+@search_router.message(SearchInfo.search_type, F.text.casefold() == 'by inchi key')
+@search_router.message(SearchInfo.molecule_next_step, F.text.casefold() == 'search by inchi key')
+async def search_by_inchi(message: types.Message, state: FSMContext) -> None:
+    await state.update_data(search_type=message.text)
+    await state.set_state(SearchInfo.inchi_key)
+    await message.reply(
+        "Enter INCHI key", 
+        reply_markup=types.ReplyKeyboardRemove()
+    )
+
+
 @search_router.message(SearchInfo.molecule_name)
 async def get_mol_by_name(message: types.Message, state: FSMContext) -> None:
     await state.update_data(molecule_name=message.text)
@@ -84,7 +96,8 @@ async def get_mol_by_name(message: types.Message, state: FSMContext) -> None:
         keyboard = [
             [types.KeyboardButton(text='Search by Similarity❄️❄️'), 
             types.KeyboardButton(text='Get Molecule Structure🧬'),
-            types.KeyboardButton(text='Search by ChEMBL ID')],
+            types.KeyboardButton(text='Search by ChEMBL ID'),
+            types.KeyboardButton(text='Search by INCHI key')],
         ]
         reply_markup = types.ReplyKeyboardMarkup(keyboard=keyboard, 
                                                 resize_keyboard=True, 
@@ -126,7 +139,8 @@ async def get_mol_by_id(message: types.Message, state: FSMContext) -> None:
         keyboard = [
             [types.KeyboardButton(text='Search by Similarity❄️❄️'), 
             types.KeyboardButton(text='Get Molecule Structure🧬'), 
-            types.KeyboardButton(text='Search by Name')], 
+            types.KeyboardButton(text='Search by Name'),
+            types.KeyboardButton(text='Search by INCHI key')], 
         ]
         reply_markup = types.ReplyKeyboardMarkup(keyboard=keyboard, 
                                                 resize_keyboard=True, 
@@ -139,6 +153,50 @@ async def get_mol_by_id(message: types.Message, state: FSMContext) -> None:
     else:
         await state.set_state(SearchInfo.molecule_name)
         await message.reply(
+            'No such molecule', 
+            reply_markup=types.ReplyKeyboardRemove()
+        )
+
+
+@search_router.message(SearchInfo.inchi_key)
+async def get_mol_by_name(message: types.Message, state: FSMContext) -> None:
+    await state.update_data(molecule_name=message.text)
+    await state.set_state(SearchInfo.molecule_next_step)
+    inchi = message.text
+    logger.debug(f'Searching \'{inchi}\' by INCHI key')
+    molecule = new_client.molecule
+    result = molecule.filter(
+        molecule_structures__standard_inchi_key=inchi).only(['molecule_chembl_id', 
+                                                            'pref_name', 
+                                                            'molecule_structures'])
+    logger.debug(f'Search by INCHI key {result = }')
+    if result:
+        pref_name = result[0]['pref_name']
+        await message.answer(
+            f"Name: {pref_name if pref_name is not None else 'not provided in ChEMBL database'} \n"
+            f"ID: {result[0]['molecule_chembl_id']} \n"
+            f"SMILES: {result[0]['molecule_structures']['canonical_smiles']}", 
+            reply_markup=types.ReplyKeyboardRemove()
+        )
+
+        await state.update_data(mol_info=result[0])
+        keyboard = [
+            [types.KeyboardButton(text='Search by Similarity❄️❄️'),
+            types.KeyboardButton(text='Get Molecule Structure🧬'),
+            types.KeyboardButton(text='Search by ChEMBL ID'),
+            types.KeyboardButton(text='Search by Name')],
+        ]
+        reply_markup = types.ReplyKeyboardMarkup(keyboard=keyboard, 
+                                                resize_keyboard=True, 
+                                                input_field_placeholder="Choose option")
+        await message.answer(
+            text="You can now search for new molecule by name "
+            "or rerun /search command to search by ChEMBL ID", 
+            reply_markup=reply_markup
+        )
+    else:
+        await state.set_state(SearchInfo.molecule_name)
+        await message.answer(
             'No such molecule', 
             reply_markup=types.ReplyKeyboardRemove()
         )
@@ -188,10 +246,13 @@ async def get_mols_by_similarity(message: types.Message, state: FSMContext) -> N
     logger.debug(data)
     logger.debug(data.get('molecule_next_step'))
     if 'search' in data.get('molecule_next_step').casefold():
+        # if smiles was retrieved from search result
         mol_info = data.get('mol_info')
         mol_smiles = mol_info['molecule_structures']['canonical_smiles']
         similarity_percent = data.get('similarity_percent')
+        similarity_percent = int(similarity_percent)
     else:
+        # if smiles was retrieved from user input
         smiles_similarity = data.get('similarity_percent')
         logger.debug(smiles_similarity)
         try:

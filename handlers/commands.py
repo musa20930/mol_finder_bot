@@ -57,7 +57,6 @@ async def help(message: types.Message) -> None:
     )
 
 
-
 @command_router.message(Command('cancel'))
 @command_router.message(F.text.casefold() == "cancel")
 async def cancel_handler(message: types.Message, state: FSMContext) -> None:
