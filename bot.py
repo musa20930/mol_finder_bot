@@ -17,7 +17,7 @@ async def main() -> None:
 
     API_TOKEN = os.getenv('MOL_FINDER_BOT_TOKEN')
     bot = Bot(token=API_TOKEN)
-    dp = Dispatcher() # отслеживает все входящие события
+    dp = Dispatcher()   # responsible for tracking all incoming events
     # Add command menu with set_my_commands
     await bot.set_my_commands([
         types.BotCommand(command="search", description="Search molecule"),

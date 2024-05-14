@@ -3,10 +3,6 @@ from typing import Union
 from rdkit import Chem
 
 
-class SmilesSimilarity(BaseModel):
-    smiles_percent: str = Field(pattern=r"^(\w+)\s(\d+)$")
-
-
 class Smiles(BaseModel):
     smiles: Union[str, None] = None
 

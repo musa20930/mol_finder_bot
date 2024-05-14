@@ -6,6 +6,7 @@ class SearchInfo(StatesGroup):
     molecule_name = State()
     chembl_id = State()
     inchi_key = State()
+    smiles = State()
     molecule_next_step = State()
     mol_info = State()
     similarity_percent = State()
