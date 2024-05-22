@@ -38,6 +38,13 @@ class Button:
     lte_logp = InlineKeyboardButton(text='<=', callback_data='lte_logp')
 
     by_lipinski = InlineKeyboardButton(text='By Lipinski Rule5️⃣', callback_data='lipinski')
+    lip_violations_0 = InlineKeyboardButton(text='0', callback_data='0_violations')
+    lip_violations_1 = InlineKeyboardButton(text='1', callback_data='1_violations')
+    lip_violations_2 = InlineKeyboardButton(text='2', callback_data='2_violations')
+    lip_violations_3 = InlineKeyboardButton(text='3', callback_data='3_violations')
+    lip_violations_4 = InlineKeyboardButton(text='4', callback_data='4_violations')
+    lip_violations_5 = InlineKeyboardButton(text='5', callback_data='5_violations')
+
     drugs_by_date = InlineKeyboardButton(text='Approved Drugs by 📅', callback_data='drugs')
     by_similarity = InlineKeyboardButton(text='By Similarity❄️❄️', callback_data='similarity')
     by_name = InlineKeyboardButton(text='By Name', callback_data='name')
@@ -98,7 +105,7 @@ class Keyboard:
         return InlineKeyboardMarkup(inline_keyboard=keyboard)
     
     @property
-    def save_similarity_res(self):
+    def save_criteria_search_res(self):
         keyboard = [
             [Button.calc_properties],
             [Button.standardize],
@@ -126,6 +133,19 @@ class Keyboard:
             Button.lte_logp,
             Button.gt_logp,
             Button.gte_logp],
+        ]
+        return InlineKeyboardMarkup(inline_keyboard=keyboard, 
+                                    input_field_placeholder="Choose option")
+    
+    @property
+    def lipinski_search(self):
+        keyboard = [
+            [Button.lip_violations_0,
+            Button.lip_violations_1,
+            Button.lip_violations_2,
+            Button.lip_violations_3,
+            Button.lip_violations_4,
+            Button.lip_violations_5],
         ]
         return InlineKeyboardMarkup(inline_keyboard=keyboard, 
                                     input_field_placeholder="Choose option")

@@ -143,7 +143,7 @@ async def get_mols_by_similarity(message: Message, state: FSMContext) -> None:
         
         if len(res) > 1:
             if len(res) > 5:
-                reply_text = f"Molecules with similarity of {similarity_percent}%: \n{res_to_display[:600]}\n...and {len(res) - 5} more"
+                reply_text = f"Molecules with similarity of {similarity_percent}%: \n{res_to_display}\n...and {len(res) - 5} more"
             else:
                 reply_text = f"Molecules with similarity of {similarity_percent}%: \n{res_to_display}"
         else:
@@ -151,7 +151,7 @@ async def get_mols_by_similarity(message: Message, state: FSMContext) -> None:
         await message.reply(reply_text)
         await message.answer(
             'Want to save to file?', 
-            reply_markup=Keyboard().save_similarity_res
+            reply_markup=Keyboard().save_criteria_search_res
         )
         await state.update_data(similarity_percent=None)
         await state.update_data(mol_series_info=res)

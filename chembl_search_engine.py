@@ -183,3 +183,18 @@ async def retrieve_by_logp(mol_logp: str, comparison_type: str) -> list:
                                                                                     'pref_name'])
     return mols
 
+
+async def retrieve_by_lipinski_rule(violations: int):
+    logger.debug(f'Searching by Lipinski rule with {violations} violations')
+    molecule = new_client.molecule
+    mols = molecule.filter(molecule_properties__num_ro5_violations=violations).only(['molecule_chembl_id', 
+                                                                                    'molecule_structures',
+                                                                                    'pref_name'])
+    return mols
+
+
+async def retrieve_drugs(year: int, amount: int):
+    logger.debug(f'Searching drugs by year {year}, limited by {amount}')
+    drug = new_client.drug
+    mols = drug.filter(first_approval__gte=year)
+    return mols[:amount]

@@ -78,7 +78,7 @@ async def get_properties(callback: CallbackQuery, state: FSMContext) -> None:
     data = await state.get_data()
     if data.get('search_multiple') is True:
         mol_series_info = data.get('mol_series_info')
-        mol_smiles = [i['molecule_structures']['canonical_smiles'] for i in mol_series_info][:50]
+        mol_smiles = [i['molecule_structures']['canonical_smiles'] for i in mol_series_info][:30]
         chembl_id = [i['molecule_chembl_id'] for i in mol_series_info]
     else:
         mol_info = data.get('mol_info')
@@ -108,7 +108,7 @@ async def get_properties_in_csv(callback: CallbackQuery, state: FSMContext) -> N
     data = await state.get_data()
     if data.get('search_multiple') is True:
         mol_series_info = data.get('mol_series_info')
-        mol_smiles = [i['molecule_structures']['canonical_smiles'] for i in mol_series_info][:50]
+        mol_smiles = [i['molecule_structures']['canonical_smiles'] for i in mol_series_info][:30]
         chembl_id = [i['molecule_chembl_id'] for i in mol_series_info]
     else:
         mol_info = data.get('mol_info')
@@ -127,7 +127,7 @@ async def get_mols_in_smi(callback: CallbackQuery, state: FSMContext) -> None:
     data = await state.get_data()
     if data.get('search_multiple') is True:
         mol_series_info = data.get('mol_series_info')
-        mol_smiles = [i['molecule_structures']['canonical_smiles'] for i in mol_series_info][:50]
+        mol_smiles = [i['molecule_structures']['canonical_smiles'] for i in mol_series_info][:30]
         chembl_id = [i['molecule_chembl_id'] for i in mol_series_info]
     else:
         mol_info = data.get('mol_info')

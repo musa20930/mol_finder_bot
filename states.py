@@ -21,3 +21,6 @@ class SearchInfo(StatesGroup):
     mol_mass_comparison = State()
     mol_logp = State()
     mol_logp_comparison = State()
+    lipinski_violations = State()
+    drugs_year = State()
+    drugs_amount = State()
