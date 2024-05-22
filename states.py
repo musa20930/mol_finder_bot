@@ -8,7 +8,9 @@ class SearchInfo(StatesGroup):
     smiles = State()
     mol_info = State()
     mol_descriptors = State()
-
+    
+    search_multiple = State()
+    mol_series_info = State()
     similarity_percent = State()
     molecule_name_sim = State()
     chembl_id_sim = State()
@@ -16,4 +18,6 @@ class SearchInfo(StatesGroup):
     smiles_sim = State()
 
     mol_mass = State()
-    logp = State()
+    mol_mass_comparison = State()
+    mol_logp = State()
+    mol_logp_comparison = State()

@@ -8,6 +8,8 @@ poetry run python bot.py
 
 import asyncio
 import os
+import logging
+import sys
 from aiogram import Bot, Dispatcher, types
 from handlers import (
     commands, search_by_identifier, 
@@ -19,6 +21,7 @@ from handlers import (
 
 async def main() -> None:
     log_handler.add_logging()
+    # logging.basicConfig(level=logging.INFO, stream=sys.stdout)
 
     API_TOKEN = os.getenv('MOL_FINDER_BOT_TOKEN')
     bot = Bot(token=API_TOKEN)

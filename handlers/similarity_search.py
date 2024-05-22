@@ -76,7 +76,7 @@ async def get_mol_for_similarity(message: Message, state: FSMContext) -> None:
         await message.answer('Enter similarity percent (between 40 and 100)')
     else:
         await state.set_state(SearchInfo.molecule_name_sim)
-        await message.answer('No such molecule')
+        await message.answer('No such molecule found by name')
     
 
 @router.message(SearchInfo.chembl_id_sim)
@@ -90,7 +90,7 @@ async def get_mol_by_name(message: Message, state: FSMContext) -> None:
         await message.answer('Enter similarity percent (between 40 and 100)')
     else:
         await state.set_state(SearchInfo.chembl_id_sim)
-        await message.answer('No such molecule')
+        await message.answer('No such molecule found by ChEMBL ID')
 
 
 @router.message(SearchInfo.inchi_key_sim)
@@ -104,7 +104,7 @@ async def get_mol_by_name(message: Message, state: FSMContext) -> None:
         await message.answer('Enter similarity percent (between 40 and 100)')
     else:
         await state.set_state(SearchInfo.inchi_key_sim)
-        await message.answer('No such molecule')
+        await message.answer('No such molecule found by INCHI key')
 
 
 @router.message(SearchInfo.smiles_sim)
@@ -118,7 +118,7 @@ async def get_mol_by_name(message: Message, state: FSMContext) -> None:
         await message.answer('Enter similarity percent (between 40 and 100)')
     else:
         await state.set_state(SearchInfo.smiles_sim)
-        await message.answer('No such molecule')
+        await message.answer('No such molecule found by SMILES')
 
 
 @router.message(SearchInfo.similarity_percent)
@@ -149,7 +149,13 @@ async def get_mols_by_similarity(message: Message, state: FSMContext) -> None:
         else:
             reply_text = f'No molecules found with similarity of {similarity_percent}%'
         await message.reply(reply_text)
+        await message.answer(
+            'Want to save to file?', 
+            reply_markup=Keyboard().save_similarity_res
+        )
         await state.update_data(similarity_percent=None)
+        await state.update_data(mol_series_info=res)
+        await state.update_data(search_multiple=True)
     else:
         await message.reply(f"Wrong similarity percent, should be between 40 and 100")
 

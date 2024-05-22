@@ -26,7 +26,6 @@ router = Router()
 
 @router.message(Command('search'))
 async def search(message: Message, state: FSMContext) -> None:
-    # await state.update_data(mol_info={})
     await state.clear()
     await message.answer(
         "Choose search type", 
@@ -70,7 +69,7 @@ async def get_mol_by_name(message: Message, state: FSMContext) -> None:
         await display_mol_info(message, state, result)
     else:
         await state.set_state(SearchInfo.molecule_name)
-        await message.answer('No such molecule')
+        await message.answer('No such molecule found by name')
 
 
 @router.message(SearchInfo.chembl_id)
@@ -81,7 +80,7 @@ async def get_mol_by_id(message: Message, state: FSMContext) -> None:
         await display_mol_info(message, state, result)
     else:
         await state.set_state(SearchInfo.chembl_id)
-        await message.answer('No such molecule')
+        await message.answer('No such molecule found by ChEMBL ID')
 
 
 @router.message(SearchInfo.inchi_key)
@@ -92,7 +91,7 @@ async def get_mol_by_name(message: Message, state: FSMContext) -> None:
         await display_mol_info(message, state, result)
     else:
         await state.set_state(SearchInfo.inchi_key)
-        await message.answer('No such molecule')
+        await message.answer('No such molecule found by INCHI key')
 
 
 @router.message(SearchInfo.smiles)
@@ -103,5 +102,5 @@ async def get_mol_by_smiles(message: Message, state: FSMContext) -> None:
         await display_mol_info(message, state, result)
     else:
         await state.set_state(SearchInfo.smiles)
-        await message.answer('No such molecule')
+        await message.answer('No such molecule found by SMILES')
 

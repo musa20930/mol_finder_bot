@@ -22,7 +22,7 @@ async def start(message: Message) -> None:
         f"Enter /search command to start. \n"
         f"Hope you find what you're looking for🙂\n\n"
         f"If you have any questions, try /help command or contact the author.\n"
-        f"List of available commands can be found on the left in the menu below👇",
+        f"List of available commands can be found in the menu below👇",
         reply_markup=ReplyKeyboardRemove()
     )
 
@@ -33,24 +33,17 @@ async def help(message: Message) -> None:
         text=f"<b>Manual for MolFinder Bot</b>\n\n"
         f"<b>Where to start</b>\n"
         f"You can start by using /search command.\n"
-        f"After which, you will see 3 buttons:\n"
-        f"\t\tSearch by Name\n"
-        f"\t\tSearch by ChEMBL ID\n"
-        f"\t\tSearch by Similarity\n\n"
-        f"<b>Look up molecules and their info</b>\n"
-        f"If you press one of the 3 buttons and type in your search query \n"
-        f"buttons will change to the following:\n"
-        f"\t\tSearch by Similarity❄️❄️\n"
-        f"\t\tGet Molecule Structure🧬\n"
-        f"\t\tSearch by Name\n\n"
-        f"`Get Molecule Structure🧬` is for getting .png image of molecule structure.\n"
-        f"`Search by Name` button is identical to the button mentioned above.\n\n"
+        f"Choose any of the options below.\n"
+        f"First row of buttons is used to get molecules by criteria, while second row is for retrieving by identifiers.\n"
+        f"After finding molecule by one identifier, you can switch to any other by using /cancel command.\n\n"
+        f"<b>Saving to file</b>\n"
+        f"`Get Molecule Structure🧬` is for getting PNG or SVG image of molecule structure.\n"
+        f"SDF, SMI AND CSV file formats are available as well.\n\n"
         f"<b>Canceling Tasks</b>\n"
         f"You can cancel any task, by typing /cancel command at any time.\n\n"
         f"<b>Contact</b>\n"
         f"If you still have some questions, "
-        f"feel free to contanct the author at @musa_adham.\n"
-        f"Thank you for using MolFinder Bot! 🙂"
+        f"feel free to contanct the author at @musa_adham. 🙂\n"
         ,
         parse_mode=ParseMode.HTML, 
         reply_markup=ReplyKeyboardRemove()

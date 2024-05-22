@@ -29,6 +29,8 @@ retrieve_dict = {
 
 @router.message(F.text)
 async def search_by_any(message: Message, state: FSMContext) -> None:
+    await state.clear()
+    
     for func in retrieve_dict.values():
         result = await func(message.text)
         if result:
@@ -36,7 +38,7 @@ async def search_by_any(message: Message, state: FSMContext) -> None:
             break
     else:
         await message.answer(
-            'No such molecule', 
+            'No such molecule found by any identifer', 
             reply_markup=ReplyKeyboardRemove()
         )
     
