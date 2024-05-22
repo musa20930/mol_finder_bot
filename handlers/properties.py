@@ -41,6 +41,7 @@ async def get_mol_png(callback: CallbackQuery, state: FSMContext) -> None:
     mol_smiles = mol_info['molecule_structures']['canonical_smiles']
     mol_img = await send_structure_png(mol_smiles, mol_info['molecule_chembl_id'])
     await callback.message.answer_photo(photo=mol_img)
+    await callback.message.delete()
     await callback.answer()
 
 
@@ -51,6 +52,7 @@ async def get_mol_svg(callback: CallbackQuery, state: FSMContext) -> None:
     mol_smiles = mol_info['molecule_structures']['canonical_smiles']
     mol_img = await send_structure_svg(mol_smiles, mol_info['molecule_chembl_id'])
     await callback.message.answer_document(mol_img)
+    await callback.message.delete()
     await callback.answer()
 
 
