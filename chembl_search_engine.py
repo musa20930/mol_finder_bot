@@ -128,34 +128,34 @@ async def retrieve_by_mass(mol_mass: str, comparison_type: str) -> list:
     mols = None
     molecule = new_client.molecule
     if comparison_type == 'range':
-        mols = molecule.filter(molecule_properties__full_mwt__range=[200, 201])
-        if re.search(f"^[1-8](,[1-8])*$", mol_mass):
-            mol_mass = re.split('; |, |,', mol_mass)
-            mol_mass1, mol_mass2 = float(mol_mass)[0], float(mol_mass)[1]
+        logger.debug(f'Mass range: {mol_mass}')
+        if re.search(r"^\d+(,\s\d+)*$", mol_mass):
+            mol_mass = re.split('; |, ', mol_mass)
+            logger.debug(f'Mass range: {mol_mass}')
+            mol_mass1, mol_mass2 = float(mol_mass[0]), float(mol_mass[1])
             if mol_mass1 > mol_mass2:
                 mol_mass1, mol_mass2 = mol_mass2, mol_mass1
             mols = molecule.filter(molecule_properties__full_mwt__range=[mol_mass1, mol_mass2]).only(['molecule_chembl_id', 
                                                                                                     'molecule_structures',
                                                                                                     'pref_name'])
-    else:
-        if re.search(f"^[+]?([0-9]+([.][0-9]*)?|[.][0-9]+)$", mol_mass):
-            mol_mass = float(mol_mass)
-            if comparison_type == '<=':
-                mols = molecule.filter(molecule_properties__mw_freebase__lte=mol_mass).only(['molecule_chembl_id', 
-                                                                                            'molecule_structures',
-                                                                                            'pref_name'])
-            elif comparison_type == '<':
-                mols = molecule.filter(molecule_properties__mw_freebase__lt=mol_mass).only(['molecule_chembl_id', 
-                                                                                            'molecule_structures',
-                                                                                            'pref_name'])
-            if comparison_type == '>=':
-                mols = molecule.filter(molecule_properties__mw_freebase__gte=mol_mass).only(['molecule_chembl_id', 
-                                                                                            'molecule_structures',
-                                                                                            'pref_name'])
-            if comparison_type == '>':
-                mols = molecule.filter(molecule_properties__mw_freebase__gt=mol_mass).only(['molecule_chembl_id', 
-                                                                                            'molecule_structures',
-                                                                                            'pref_name'])
+    elif re.search(f"^[+]?([0-9]+([.][0-9]*)?|[.][0-9]+)$", mol_mass):
+        mol_mass = float(mol_mass)
+        if comparison_type == '<=':
+            mols = molecule.filter(molecule_properties__mw_freebase__lte=mol_mass).only(['molecule_chembl_id', 
+                                                                                        'molecule_structures',
+                                                                                        'pref_name'])
+        elif comparison_type == '<':
+            mols = molecule.filter(molecule_properties__mw_freebase__lt=mol_mass).only(['molecule_chembl_id', 
+                                                                                        'molecule_structures',
+                                                                                        'pref_name'])
+        elif comparison_type == '>=':
+            mols = molecule.filter(molecule_properties__mw_freebase__gte=mol_mass).only(['molecule_chembl_id', 
+                                                                                        'molecule_structures',
+                                                                                        'pref_name'])
+        elif comparison_type == '>':
+            mols = molecule.filter(molecule_properties__mw_freebase__gt=mol_mass).only(['molecule_chembl_id', 
+                                                                                        'molecule_structures',
+                                                                                        'pref_name'])
     return mols
 
 
