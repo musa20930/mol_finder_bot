@@ -1,5 +1,9 @@
 from . import (
     log_handler,
-    search,
-    commands
+    search_by_identifier,
+    properties,
+    search_by_criteria,
+    similarity_search,
+    commands,
+    fallback
 )

@@ -12,6 +12,9 @@ loguru = "^0.7.2"
 chembl-webresource-client = "^0.10.9"
 aiogram = "^3.6.0"
 rdkit = "^2023.9.6"
+chython = "^1.78"
+cairosvg = "^2.7.1"
+cgrtools = "^4.1.35"
 
 
 [build-system]
